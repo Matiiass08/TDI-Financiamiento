@@ -14,7 +14,7 @@ Para correr el código debes clonar el github, luego abrir Visual Studio Code y 
 ```bash
 npm i
 npm run dev
-
+```
 
 ## Stack
 - React + Vite + TypeScript
