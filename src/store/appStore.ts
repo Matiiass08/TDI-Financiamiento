@@ -11,7 +11,7 @@ export const useApp = create<AppState>((set, get) => ({
   metaCLP: persisted?.metaCLP ?? META_CLP,
   items: persisted?.items ?? seedItems(),
   selectedCategory: null,
-  showHiddenInCategory: false,
+  showHiddenInCategory: true,
   chartType: 'pie',
 
   addItem: (payload) => {
