@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root { color-scheme: light; }
+.dark { color-scheme: dark; }
+
+
+/**** Utilidades ****/
+.card { @apply bg-white dark:bg-neutral-900 rounded-2xl shadow-sm border border-gray-200 dark:border-neutral-800; }
+.btn { @apply inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 hover:bg-gray-50 dark:hover:bg-neutral-800; }
+.btn-primary { @apply bg-tdi-yellow border-transparent hover:brightness-95; }
+.input { @apply w-full rounded-xl border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2; }
+.label { @apply text-sm font-medium; }
+.badge { @apply inline-flex items-center rounded-full bg-gray-100 dark:bg-neutral-800 px-2 py-0.5 text-xs font-medium; }
+.icon-btn { @apply rounded-xl p-2 hover:bg-gray-100 dark:hover:bg-neutral-800; }
+
+
+.progress { @apply h-3 w-full rounded-full bg-gray-200 dark:bg-neutral-800 overflow-hidden; }
+.progress > div { @apply h-full bg-tdi-yellow; }
