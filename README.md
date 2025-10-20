@@ -4,7 +4,7 @@ Acá están las instrucciones para correrlo
 Cualquier duda sobre la app preguntarme: miretamales@uc.cl o al wsp +56930547385
 
 
-App para monitorear y alcanzar la meta de **CLP $50.000.000** con categorías e ítems visibles/ocultos, gráficos y persistencia local.
+App para monitorear y alcanzar la meta de dinero en TDI, con categorías e ítems visibles/ocultos, gráficos y persistencia local.
 
 
 
