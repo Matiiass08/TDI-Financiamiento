@@ -16,7 +16,7 @@ import {
   CartesianGrid
 } from 'recharts'
 
-const COLORS = ['#11e63fff', '#fcfc1dff', '#0aea3bff', '#fc04a9ff', '#f40a0aff', '#f89d00ff']
+const COLORS = ['#11e63fff', '#fcfc1dff', '#0a1deaff', '#fc04a9ff', '#f40a0aff', '#f89d00ff']
 
 export function ChartCard() {
   const { items, chartType } = useApp()
