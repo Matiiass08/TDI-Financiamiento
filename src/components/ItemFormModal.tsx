@@ -41,7 +41,11 @@ export function ItemFormModal({ open, onOpenChange, editId }: Props) {
     // Validaciones
     if (!nombre.trim()) { showToast('El nombre es obligatorio'); return }
     const val = typeof monto === 'string' ? parseInt(monto) : monto
-    if (!Number.isInteger(val) || val <= 0) { showToast('El monto debe ser un entero CLP > 0'); return }
+    if (!Number.isInteger(val) || val === 0) {
+      showToast('El monto debe ser un entero distinto de 0 (positivo o negativo)')
+      return
+    }
+
 
     const isoDate = new Date(fecha).toISOString()
 
@@ -77,7 +81,14 @@ export function ItemFormModal({ open, onOpenChange, editId }: Props) {
           </label>
 
           <label className="label">Monto (CLP)
-            <input className="input mt-1" inputMode="numeric" pattern="[0-9]*" value={monto} onChange={e => setMonto(e.target.value === '' ? '' : Number(e.target.value.replace(/\D/g,'')))} placeholder="Ej.: 500000" required />
+            <input
+              className="input mt-1"
+              type="number"
+              value={monto}
+              onChange={e => setMonto(e.target.value === '' ? '' : Number(e.target.value))}
+              placeholder="Ej.: 500000 o -250000"
+              required
+            />
           </label>
 
           <label className="label">Fecha
