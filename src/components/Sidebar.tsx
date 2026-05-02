@@ -2,6 +2,7 @@ import { useApp } from '@/store/appStore'
 import { categoriaLabel } from '@/lib/format'
 import { categoriaIds, totalVisibleByCategory, countByCategory } from '@/lib/metrics'
 import { fmtCLP } from '@/lib/format'
+import tdiLogo from '@/assets/tdi-logo.png'
 import {
   HandCoins,
   PiggyBank,
@@ -26,11 +27,9 @@ export function Sidebar() {
 
   return (
     <aside className="hidden md:flex w-72 shrink-0 flex-col gap-2 p-4 border-r border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
-      {/* Encabezado con logo TDI */}
       <div className="flex items-center gap-3 mb-4">
-        {/* 🟡 Logo (asegúrate de tener src/assets/tdi-logo.png) */}
         <img
-          src="/src/assets/tdi-logo.png"
+          src={tdiLogo}
           alt="Logo TDI"
           className="w-10 h-10 object-contain rounded-md bg-tdi-yellow/10 p-1"
         />
@@ -40,7 +39,6 @@ export function Sidebar() {
         </div>
       </div>
 
-      {/* Lista de categorías */}
       <nav className="flex flex-col gap-1">
         {categoriaIds.map((c) => {
           const total = fmtCLP(totalVisibleByCategory(items, c))
@@ -72,7 +70,6 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* Botón inferior */}
       <button
         className="mt-auto text-sm text-neutral-500 hover:underline"
         onClick={() => useApp.getState().setSelectedCategory(null)}
