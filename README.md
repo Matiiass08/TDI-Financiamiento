@@ -26,17 +26,18 @@ npm start
 En desarrollo (`npm run dev`) la app sigue usando `localStorage`. En produccion (`npm start`) el servidor expone `/api/state`, pide clave de acceso y guarda el estado en `data/tdi-financiamiento-state.json`.
 
 ## Deploy en Render
-1. Crear un **Web Service** desde el repositorio.
-2. Build command: `npm ci && npm run build`
-3. Start command: `npm start`
-4. Environment variables:
+1. Crear una **PostgreSQL Database** Free en Render.
+2. Copiar el **Internal Database URL** de la base.
+3. Crear un **Web Service** desde el repositorio.
+4. Build command: `npm ci --include=dev && npm run build`
+5. Start command: `npm start`
+6. Environment variables del Web Service:
    - `NODE_ENV=production`
    - `ACCESS_KEY=la-clave-privada`
    - `SESSION_SECRET=un-texto-largo-random`
-   - `DATA_DIR=/data`
-5. Agregar un **Persistent Disk** montado en `/data`.
+   - `DATABASE_URL=internal-database-url-de-render`
 
-Sin disco persistente, Render puede perder el JSON cuando reinicia o redeploya el servicio.
+Render Postgres Free tiene 1 GB y expira 30 dias despues de crearse. Para produccion estable conviene subir la base a plan pago o usar otro proveedor gratuito sin expiracion.
 
 ## Stack
 - React + Vite + TypeScript

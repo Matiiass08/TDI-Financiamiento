@@ -3,19 +3,27 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import express from 'express'
+import pg from 'pg'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const rootDir = path.resolve(__dirname, '..')
 const distDir = path.join(rootDir, 'dist')
 const dataDir = process.env.DATA_DIR || path.join(rootDir, 'data')
 const statePath = path.join(dataDir, 'tdi-financiamiento-state.json')
+const databaseUrl = process.env.DATABASE_URL
 const isProduction = process.env.NODE_ENV === 'production'
 const accessKey = process.env.ACCESS_KEY || (isProduction ? '' : 'tdi-dev')
 const sessionSecret = process.env.SESSION_SECRET || accessKey
 const app = express()
+const pool = databaseUrl ? new pg.Pool(buildPoolConfig(databaseUrl)) : null
+let schemaReady = false
 
 if (!accessKey) {
   console.warn('ACCESS_KEY no esta configurada. El login quedara deshabilitado.')
+}
+
+if (!pool) {
+  console.warn('DATABASE_URL no esta configurada. Se usara archivo local temporal.')
 }
 
 app.use(express.json({ limit: '1mb' }))
@@ -114,6 +122,48 @@ function safeEqual(a, b) {
 }
 
 async function readState() {
+  if (pool) return readDbState()
+  return readFileState()
+}
+
+async function writeState(state) {
+  if (pool) return writeDbState(state)
+  return writeFileState(state)
+}
+
+async function readDbState() {
+  await ensureSchema()
+  const result = await pool.query('select data from app_state where id = $1', ['main'])
+  if (!result.rowCount) return null
+  return normalizeState(result.rows[0].data)
+}
+
+async function writeDbState(state) {
+  await ensureSchema()
+  await pool.query(
+    `
+      insert into app_state (id, data, updated_at)
+      values ($1, $2::jsonb, now())
+      on conflict (id)
+      do update set data = excluded.data, updated_at = now()
+    `,
+    ['main', JSON.stringify(state)]
+  )
+}
+
+async function ensureSchema() {
+  if (schemaReady || !pool) return
+  await pool.query(`
+    create table if not exists app_state (
+      id text primary key,
+      data jsonb not null,
+      updated_at timestamptz not null default now()
+    )
+  `)
+  schemaReady = true
+}
+
+async function readFileState() {
   try {
     const raw = await fs.readFile(statePath, 'utf8')
     return normalizeState(JSON.parse(raw))
@@ -123,11 +173,19 @@ async function readState() {
   }
 }
 
-async function writeState(state) {
+async function writeFileState(state) {
   await fs.mkdir(dataDir, { recursive: true })
   const tmpPath = `${statePath}.${process.pid}.tmp`
   await fs.writeFile(tmpPath, JSON.stringify(state, null, 2), 'utf8')
   await fs.rename(tmpPath, statePath)
+}
+
+function buildPoolConfig(connectionString) {
+  const config = { connectionString }
+  if (process.env.DB_SSL === 'true' || process.env.PGSSLMODE === 'require') {
+    config.ssl = { rejectUnauthorized: false }
+  }
+  return config
 }
 
 function normalizeState(data) {
