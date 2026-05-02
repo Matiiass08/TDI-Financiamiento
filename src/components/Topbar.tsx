@@ -57,9 +57,9 @@ export function Topbar() {
 
   return (
     <header className="sticky top-0 z-10 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-neutral-950/70 bg-white dark:bg-neutral-950 border-b border-gray-200 dark:border-neutral-800">
-      <div className="px-4 lg:px-6 h-14 flex items-center gap-3">
-        <h1 className="font-semibold">Financiamiento TDI</h1>
-        <div className="ml-auto flex items-center gap-2">
+      <div className="px-3 sm:px-4 lg:px-6 min-h-14 flex flex-wrap items-center gap-2 py-2">
+        <h1 className="font-semibold text-sm sm:text-base">Financiamiento TDI</h1>
+        <div className="ml-auto flex min-w-0 items-center gap-2 overflow-x-auto">
           <div className="hidden sm:flex rounded-xl overflow-hidden border border-gray-300 dark:border-neutral-700">
             <button className={`px-3 py-2 flex items-center gap-1 ${chartType==='pie'?'bg-gray-100 dark:bg-neutral-800':''}`} onClick={() => setChartType('pie')}>
               <PieChart className="size-4" /> Torta
@@ -69,13 +69,13 @@ export function Topbar() {
             </button>
           </div>
 
-          <button className="btn" onClick={() => setOpen(true)}>
+          <button className="btn max-sm:px-2 max-sm:text-xs" onClick={() => setOpen(true)}>
             <Plus className="size-4" /> Agregar ítem
           </button>
-          <button className="btn" onClick={onExport}>
+          <button className="btn max-sm:px-2 max-sm:text-xs" onClick={onExport}>
             <Download className="size-4" /> Exportar
           </button>
-          <label className="btn cursor-pointer">
+          <label className="btn max-sm:px-2 max-sm:text-xs cursor-pointer">
             <Upload className="size-4" /> Importar
             <input ref={fileRef} type="file" accept="application/json" className="hidden" onChange={(e) => onImport(e.target.files?.[0] ?? null)} />
           </label>

@@ -35,11 +35,10 @@ export function ChartCard() {
   }))
 
   return (
-    <section className="card p-5">
+    <section className="card p-4 sm:p-5">
       <h2 className="font-semibold mb-3">Distribución por categoría</h2>
-      <div className="h-72 flex gap-6">
-        {/* 🎯 Contenedor del gráfico */}
-        <div className="flex-1">
+      <div className="flex flex-col gap-4 sm:h-72 sm:flex-row sm:gap-6">
+        <div className="h-64 flex-1 sm:h-auto">
           <ResponsiveContainer width="100%" height="100%">
             {chartType === 'pie' ? (
               <PieChart>
@@ -87,28 +86,27 @@ export function ChartCard() {
           </ResponsiveContainer>
         </div>
 
-        {/* 📊 Leyenda lateral fija con porcentajes */}
         {chartType === 'pie' && (
-          <div className="w-48 flex flex-col justify-start text-sm text-neutral-700 dark:text-neutral-200">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-neutral-700 dark:text-neutral-200 sm:flex sm:w-48 sm:flex-col sm:justify-start sm:gap-0">
             <div className="font-semibold mb-1">%</div>
             {data.map((d, i) => {
               const pct = total > 0 ? ((d.value / total) * 100).toFixed(1) : '0.0'
               return (
-                <div key={d.key} className="flex items-center justify-between mb-1">
-                  <div className="flex items-center gap-1">
+                <div key={d.key} className="flex items-center justify-between gap-2 sm:mb-1">
+                  <div className="flex min-w-0 items-center gap-1">
                     <div
-                      className="w-3 h-3 rounded-sm"
+                      className="h-3 w-3 shrink-0 rounded-sm"
                       style={{ backgroundColor: d.fill }}
                     ></div>
-                    <span className="truncate max-w-[7rem]" title={d.name}>
+                    <span className="truncate" title={d.name}>
                       {d.name}
                     </span>
                   </div>
-                  <span>{pct}%</span>
+                  <span className="shrink-0">{pct}%</span>
                 </div>
               )
             })}
-            <div className="mt-2 pt-1 border-t border-gray-200 dark:border-neutral-700 flex justify-between font-medium">
+            <div className="col-span-2 mt-2 flex justify-between border-t border-gray-200 pt-1 font-medium dark:border-neutral-700">
               <span>Total</span>
               <span>{pctTotal}%</span>
             </div>

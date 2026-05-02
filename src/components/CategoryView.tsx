@@ -25,28 +25,68 @@ export function CategoryView() {
 
   const totalCat = selectedCategory ? totalVisibleByCategory(items, selectedCategory) : null
 
+  const renderControls = () => (
+    <>
+      <label className="flex items-center gap-2 text-sm">
+        <input type="checkbox" checked={showHiddenInCategory} onChange={e => setShowHiddenInCategory(e.target.checked)} />
+        Ver también ocultos
+      </label>
+      <div className="flex min-w-0 items-center gap-2 text-sm">
+        <Filter className="size-4 shrink-0" />
+        <input className="input min-w-0" placeholder="Buscar por nombre..." value={query} onChange={(e) => setQuery(e.target.value)} />
+      </div>
+      <button className="btn justify-center" onClick={() => setSortDir(d => d==='asc'?'desc':'asc')}>
+        <ArrowUpDown className="size-4" /> Orden: {sortKey} {sortDir}
+      </button>
+    </>
+  )
+
   return (
-    <section className="card p-5">
-      <div className="flex items-center gap-3 mb-4">
+    <section className="card p-4 sm:p-5">
+      <div className="flex items-start gap-3 mb-4">
         <h2 className="font-semibold">
           {selectedCategory ? `Categoría: ${categoriaLabel[selectedCategory]}` : 'Todos los ítems'}
         </h2>
-        <div className="ml-auto flex items-center gap-2">
-          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={showHiddenInCategory} onChange={e => setShowHiddenInCategory(e.target.checked)} /> Ver también ocultos</label>
-          <div className="hidden sm:flex items-center gap-2 text-sm">
-            <Filter className="size-4" />
-            <input className="input" placeholder="Buscar por nombre…" value={query} onChange={(e) => setQuery(e.target.value)} />
-            <button className="btn" onClick={() => setSortDir(d => d==='asc'?'desc':'asc')}>
-              <ArrowUpDown className="size-4" /> Orden: {sortKey} {sortDir}
-            </button>
-          </div>
+        <div className="ml-auto hidden items-center gap-2 sm:flex">
+          {renderControls()}
         </div>
+      </div>
+
+      <div className="mb-4 grid gap-2 sm:hidden">
+        {renderControls()}
       </div>
 
       {filtered.length === 0 ? (
         <EmptyState title={selectedCategory ? 'Aún no hay ítems en esta categoría' : 'No hay ítems'} cta="Agregar ítem desde el botón superior" />
       ) : (
-        <div className="overflow-auto">
+        <>
+        <div className="grid gap-3 md:hidden">
+          {filtered.map((i) => (
+            <article key={i.id} className="rounded-lg border border-gray-200 p-3 dark:border-neutral-800">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <h3 className="font-medium leading-snug">{i.nombre}</h3>
+                  <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">{i.fecha.slice(0,10)}</p>
+                </div>
+                <div className="shrink-0 text-right font-semibold">{fmtCLP(i.montoCLP)}</div>
+              </div>
+              {!selectedCategory && (
+                <div className="mt-2 text-xs text-neutral-500 dark:text-neutral-400">
+                  {categoriaLabel[i.categoria]}
+                </div>
+              )}
+              <div className="mt-3 flex items-center justify-end gap-1">
+                <button className="icon-btn" aria-label="Alternar visibilidad" onClick={() => toggleVisible(i.id)}>
+                  {i.visible ? <Eye className="size-5" aria-hidden /> : <EyeOff className="size-5" aria-hidden />}
+                </button>
+                <button className="icon-btn" aria-label="Editar" onClick={() => setEditId(i.id)}><Pencil className="size-5" /></button>
+                <button className="icon-btn" aria-label="Eliminar" onClick={() => setDelId(i.id)}><Trash2 className="size-5" /></button>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="hidden overflow-auto md:block">
           <table className="w-full text-sm">
             <thead className="text-left text-neutral-500">
               <tr>
@@ -77,6 +117,7 @@ export function CategoryView() {
             </tbody>
           </table>
         </div>
+        </>
       )}
 
       {selectedCategory && (

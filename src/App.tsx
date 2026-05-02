@@ -6,6 +6,7 @@ import { CategoryView } from '@/components/CategoryView'
 import { useApp } from '@/store/appStore'
 import { ToastViewport } from '@/components/Toast'
 import { AuthGate } from '@/components/AuthGate'
+import { MobileCategoryNav } from '@/components/MobileCategoryNav'
 
 export default function App() {
   const selected = useApp(s => s.selectedCategory)
@@ -16,7 +17,8 @@ export default function App() {
           <Sidebar />
           <main className="flex-1">
             <Topbar />
-            <div className="p-4 lg:p-6 grid gap-6">
+            <MobileCategoryNav />
+            <div className="p-3 sm:p-4 lg:p-6 grid gap-4 lg:gap-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <ProgressCard />
                 <ChartCard />

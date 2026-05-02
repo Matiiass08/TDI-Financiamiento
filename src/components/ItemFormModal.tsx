@@ -62,8 +62,8 @@ export function ItemFormModal({ open, onOpenChange, editId }: Props) {
   if (!open) return null
 
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-black/30 p-4" role="dialog" aria-modal>
-      <form onSubmit={onSubmit} className="card w-full max-w-lg p-5">
+    <div className="fixed inset-0 z-50 grid place-items-center overflow-y-auto bg-black/30 p-3 sm:p-4" role="dialog" aria-modal>
+      <form onSubmit={onSubmit} className="card max-h-[calc(100vh-1.5rem)] w-full max-w-lg overflow-y-auto p-4 sm:p-5">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-semibold">{editing ? 'Editar ítem' : 'Agregar ítem'}</h3>
           <button type="button" className="icon-btn" onClick={() => onOpenChange(false)} aria-label="Cerrar">✕</button>
@@ -100,7 +100,7 @@ export function ItemFormModal({ open, onOpenChange, editId }: Props) {
           </label>
         </div>
 
-        <div className="mt-4 flex justify-end gap-2">
+        <div className="mt-4 flex justify-end gap-2 max-sm:flex-col-reverse">
           <button type="button" className="btn" onClick={() => onOpenChange(false)}>Cancelar</button>
           <button type="submit" className="btn btn-primary">Guardar</button>
         </div>
