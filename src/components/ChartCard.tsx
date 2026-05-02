@@ -87,7 +87,7 @@ export function ChartCard() {
         </div>
 
         {chartType === 'pie' && (
-          <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-neutral-700 dark:text-neutral-200 sm:flex sm:w-48 sm:flex-col sm:justify-start sm:gap-0">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-neutral-700 dark:text-slate-200 sm:flex sm:w-48 sm:flex-col sm:justify-start sm:gap-0">
             <div className="font-semibold mb-1">%</div>
             {data.map((d, i) => {
               const pct = total > 0 ? ((d.value / total) * 100).toFixed(1) : '0.0'
@@ -106,7 +106,7 @@ export function ChartCard() {
                 </div>
               )
             })}
-            <div className="col-span-2 mt-2 flex justify-between border-t border-gray-200 pt-1 font-medium dark:border-neutral-700">
+            <div className="col-span-2 mt-2 flex justify-between border-t border-gray-200 pt-1 font-medium dark:border-white/10">
               <span>Total</span>
               <span>{pctTotal}%</span>
             </div>

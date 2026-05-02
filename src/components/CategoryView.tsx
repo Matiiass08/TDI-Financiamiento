@@ -62,16 +62,16 @@ export function CategoryView() {
         <>
         <div className="grid gap-3 md:hidden">
           {filtered.map((i) => (
-            <article key={i.id} className="rounded-lg border border-gray-200 p-3 dark:border-neutral-800">
+            <article key={i.id} className="rounded-lg border border-gray-200 bg-white/70 p-3 dark:border-white/10 dark:bg-slate-950/35">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <h3 className="font-medium leading-snug">{i.nombre}</h3>
-                  <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">{i.fecha.slice(0,10)}</p>
+                  <p className="mt-1 text-sm text-neutral-500 dark:text-slate-400">{i.fecha.slice(0,10)}</p>
                 </div>
                 <div className="shrink-0 text-right font-semibold">{fmtCLP(i.montoCLP)}</div>
               </div>
               {!selectedCategory && (
-                <div className="mt-2 text-xs text-neutral-500 dark:text-neutral-400">
+                <div className="mt-2 text-xs text-neutral-500 dark:text-slate-400">
                   {categoriaLabel[i.categoria]}
                 </div>
               )}
@@ -99,7 +99,7 @@ export function CategoryView() {
             </thead>
             <tbody>
               {filtered.map((i) => (
-                <tr key={i.id} className="border-t border-gray-200 dark:border-neutral-800">
+                <tr key={i.id} className="border-t border-gray-200 dark:border-white/10">
                   <td className="py-2 pr-2">{i.nombre}</td>
                   <td className="py-2 pr-2 font-medium">{fmtCLP(i.montoCLP)}</td>
                   <td className="py-2 pr-2">{i.fecha.slice(0,10)}</td>
@@ -121,7 +121,7 @@ export function CategoryView() {
       )}
 
       {selectedCategory && (
-        <div className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
+        <div className="mt-4 text-sm text-neutral-600 dark:text-slate-400">
           Total visible de la categoría: <span className="font-semibold">{fmtCLP(totalCat ?? 0)}</span>
         </div>
       )}

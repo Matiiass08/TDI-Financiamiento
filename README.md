@@ -16,14 +16,17 @@ npm i
 npm run dev
 ```
 
+Para desarrollo local basta con `npm run dev`. En ese modo se abre Vite y los datos se guardan en el navegador con `localStorage`, sin clave y sin conectarse a Postgres.
+
+El archivo `.env` es solo para secretos locales y no se sube a GitHub. Puedes mirar `.env.example` para ver las variables esperadas.
+
 ## Produccion local
 ```bash
 npm run build
-$env:ACCESS_KEY="tu-clave"
 npm start
 ```
 
-En desarrollo (`npm run dev`) la app sigue usando `localStorage`. En produccion (`npm start`) el servidor expone `/api/state`, pide clave de acceso y guarda el estado en Postgres si existe `DATABASE_URL`. Si no existe `DATABASE_URL`, usa un archivo local solo como fallback de desarrollo.
+Para probar produccion local con clave, crea un `.env` usando `.env.example` como referencia. En produccion (`npm start`) el servidor expone `/api/state`, pide clave de acceso y guarda el estado en Postgres si existe `DATABASE_URL`. Si no existe `DATABASE_URL`, usa un archivo local solo como fallback de desarrollo.
 
 ## Deploy en Render
 1. Crear una **PostgreSQL Database** Free en Render.

@@ -12,7 +12,7 @@ export default function App() {
   const selected = useApp(s => s.selectedCategory)
   return (
     <AuthGate>
-      <div className="min-h-screen bg-tdi-gray-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
+      <div className="min-h-screen bg-tdi-gray-50 text-neutral-900 dark:bg-transparent dark:text-slate-100">
         <div className="flex">
           <Sidebar />
           <main className="flex-1">

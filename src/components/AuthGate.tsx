@@ -61,15 +61,15 @@ export function AuthGate({ children }: { children: ReactNode }) {
 
   if (gateState === 'checking') {
     return (
-      <div className="min-h-screen grid place-items-center bg-tdi-gray-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
-        <div className="text-sm text-neutral-500">Cargando...</div>
+      <div className="min-h-screen grid place-items-center bg-tdi-gray-50 text-neutral-900 dark:bg-transparent dark:text-slate-100">
+        <div className="text-sm text-neutral-500 dark:text-slate-400">Cargando...</div>
       </div>
     )
   }
 
   if (gateState === 'locked') {
     return (
-      <div className="min-h-screen grid place-items-center bg-tdi-gray-50 px-4 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
+      <div className="min-h-screen grid place-items-center bg-tdi-gray-50 px-4 text-neutral-900 dark:bg-transparent dark:text-slate-100">
         <form className="w-full max-w-sm card p-5 grid gap-4" onSubmit={onSubmit}>
           <div className="flex items-center gap-3">
             <div className="grid size-10 place-items-center rounded-xl bg-tdi-yellow text-neutral-950">
@@ -77,7 +77,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
             </div>
             <div>
               <h1 className="font-semibold">Financiamiento TDI</h1>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">Acceso privado</p>
+              <p className="text-sm text-neutral-500 dark:text-slate-400">Acceso privado</p>
             </div>
           </div>
 

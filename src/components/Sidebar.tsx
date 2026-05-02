@@ -26,7 +26,7 @@ export function Sidebar() {
   const { items, selectedCategory, setSelectedCategory } = useApp()
 
   return (
-    <aside className="hidden md:flex w-72 shrink-0 flex-col gap-2 p-4 border-r border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
+    <aside className="hidden md:flex w-72 shrink-0 flex-col gap-2 border-r border-gray-200 bg-white p-4 dark:border-white/10 dark:bg-slate-950/55">
       <div className="flex items-center gap-3 mb-4">
         <img
           src={tdiLogo}
@@ -48,8 +48,8 @@ export function Sidebar() {
           return (
             <button
               key={c}
-              className={`flex items-center justify-between rounded-xl px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-neutral-800 ${
-                active ? 'bg-gray-100 dark:bg-neutral-800' : ''
+              className={`flex items-center justify-between rounded-xl px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-slate-800/80 ${
+                active ? 'bg-gray-100 dark:bg-amber-300 dark:text-slate-950' : ''
               }`}
               onClick={() => setSelectedCategory(c)}
             >

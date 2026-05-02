@@ -56,15 +56,15 @@ export function Topbar() {
   }
 
   return (
-    <header className="sticky top-0 z-10 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-neutral-950/70 bg-white dark:bg-neutral-950 border-b border-gray-200 dark:border-neutral-800">
+    <header className="sticky top-0 z-10 border-b border-gray-200 bg-white backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:border-white/10 dark:bg-slate-950/80 dark:supports-[backdrop-filter]:bg-slate-950/65">
       <div className="px-3 sm:px-4 lg:px-6 min-h-14 flex flex-wrap items-center gap-2 py-2">
         <h1 className="font-semibold text-sm sm:text-base">Financiamiento TDI</h1>
         <div className="ml-auto flex min-w-0 items-center gap-2 overflow-x-auto">
-          <div className="hidden sm:flex rounded-xl overflow-hidden border border-gray-300 dark:border-neutral-700">
-            <button className={`px-3 py-2 flex items-center gap-1 ${chartType==='pie'?'bg-gray-100 dark:bg-neutral-800':''}`} onClick={() => setChartType('pie')}>
+          <div className="hidden sm:flex rounded-xl overflow-hidden border border-gray-300 dark:border-white/10 dark:bg-slate-900/60">
+            <button className={`px-3 py-2 flex items-center gap-1 ${chartType==='pie'?'bg-gray-100 dark:bg-amber-300 dark:text-slate-950':''}`} onClick={() => setChartType('pie')}>
               <PieChart className="size-4" /> Torta
             </button>
-            <button className={`px-3 py-2 flex items-center gap-1 ${chartType==='bar'?'bg-gray-100 dark:bg-neutral-800':''}`} onClick={() => setChartType('bar')}>
+            <button className={`px-3 py-2 flex items-center gap-1 ${chartType==='bar'?'bg-gray-100 dark:bg-amber-300 dark:text-slate-950':''}`} onClick={() => setChartType('bar')}>
               <BarChart3 className="size-4" /> Barras
             </button>
           </div>
