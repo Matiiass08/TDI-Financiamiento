@@ -27,6 +27,8 @@ export type AppState = {
   selectedCategory: CategoriaId | null
   showHiddenInCategory: boolean
   chartType: ChartType
+  isHydrating: boolean
+  syncError: string | null
 
   // CRUD
   addItem: (i: Omit<Item, 'id' | 'createdAt' | 'updatedAt' | 'visible'> & { visible?: boolean }) => void
@@ -39,6 +41,7 @@ export type AppState = {
 
   // import/export
   importState: (data: { metaCLP?: number; items: Item[] }) => void
+  hydrateFromServer: () => Promise<void>
   exportState: () => string
   clearAll: () => void
 }

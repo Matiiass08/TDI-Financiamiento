@@ -1,8 +1,9 @@
 import { useApp } from '@/store/appStore'
 import { ItemFormModal } from './ItemFormModal'
 import { useState, useRef } from 'react'
-import { Download, Upload, Plus, Moon, Sun, PieChart, BarChart3 } from 'lucide-react'
+import { Download, Upload, Plus, Moon, Sun, PieChart, BarChart3, LogOut } from 'lucide-react'
 import { showToast } from './Toast'
+import { storage } from '@/lib/storage'
 
 export function Topbar() {
   const { setChartType, chartType, exportState, importState } = useApp()
@@ -43,6 +44,11 @@ export function Topbar() {
     localStorage.setItem('theme', next ? 'dark' : 'light')
   }
 
+  const onLogout = async () => {
+    await storage.logout()
+    window.location.reload()
+  }
+
   // Restaurar preferencia de tema al cargar
   if (typeof window !== 'undefined') {
     const pref = localStorage.getItem('theme')
@@ -77,6 +83,11 @@ export function Topbar() {
             <Moon className="size-5 hidden dark:block" />
             <Sun className="size-5 dark:hidden" />
           </button>
+          {storage.usesRemote() && (
+            <button className="icon-btn" onClick={onLogout} aria-label="Cerrar sesión">
+              <LogOut className="size-5" />
+            </button>
+          )}
         </div>
       </div>
       <ItemFormModal open={open} onOpenChange={setOpen} />

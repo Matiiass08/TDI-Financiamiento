@@ -13,6 +13,8 @@ export const useApp = create<AppState>((set, get) => ({
   selectedCategory: null,
   showHiddenInCategory: true,
   chartType: 'pie',
+  isHydrating: false,
+  syncError: null,
 
   addItem: (payload) => {
     const now = new Date().toISOString()
@@ -50,6 +52,24 @@ export const useApp = create<AppState>((set, get) => ({
   importState: (data) => {
     set({ metaCLP: data.metaCLP ?? META_CLP, items: data.items })
     persist()
+  },
+
+  hydrateFromServer: async () => {
+    set({ isHydrating: true, syncError: null })
+    try {
+      const data = await storage.loadRemote()
+      if (data) {
+        set({ metaCLP: data.metaCLP ?? META_CLP, items: data.items })
+        storage.save({ metaCLP: data.metaCLP ?? META_CLP, items: data.items })
+      } else {
+        persist()
+      }
+    } catch (e: any) {
+      set({ syncError: e?.message ?? 'No se pudo sincronizar' })
+      throw e
+    } finally {
+      set({ isHydrating: false })
+    }
   },
 
   exportState: () => {

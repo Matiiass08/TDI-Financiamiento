@@ -16,6 +16,28 @@ npm i
 npm run dev
 ```
 
+## Produccion local
+```bash
+npm run build
+$env:ACCESS_KEY="tu-clave"
+npm start
+```
+
+En desarrollo (`npm run dev`) la app sigue usando `localStorage`. En produccion (`npm start`) el servidor expone `/api/state`, pide clave de acceso y guarda el estado en `data/tdi-financiamiento-state.json`.
+
+## Deploy en Render
+1. Crear un **Web Service** desde el repositorio.
+2. Build command: `npm ci && npm run build`
+3. Start command: `npm start`
+4. Environment variables:
+   - `NODE_ENV=production`
+   - `ACCESS_KEY=la-clave-privada`
+   - `SESSION_SECRET=un-texto-largo-random`
+   - `DATA_DIR=/data`
+5. Agregar un **Persistent Disk** montado en `/data`.
+
+Sin disco persistente, Render puede perder el JSON cuando reinicia o redeploya el servicio.
+
 ## Stack
 - React + Vite + TypeScript
 - **Zustand** (estado global)
