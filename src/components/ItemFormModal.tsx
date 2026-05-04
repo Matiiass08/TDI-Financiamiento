@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useApp } from '@/store/appStore'
 import type { CategoriaId } from '@/types'
 import { categoriaLabel } from '@/lib/format'
@@ -11,7 +12,7 @@ const cats: { id: CategoriaId; name: string }[] = [
 type Props = { open: boolean; onOpenChange: (v: boolean) => void; editId?: string }
 
 export function ItemFormModal({ open, onOpenChange, editId }: Props) {
-  const { addItem, updateItem, items, selectedCategory } = useApp()
+  const { addItem, updateItem, items, selectedCategory, setSelectedCategory } = useApp()
   const editing = useMemo(() => items.find(i => i.id === editId), [items, editId])
 
   const [categoria, setCategoria] = useState<CategoriaId>(selectedCategory ?? 'donaciones')
@@ -39,7 +40,9 @@ export function ItemFormModal({ open, onOpenChange, editId }: Props) {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Validaciones
-    if (!nombre.trim()) { showToast('El nombre es obligatorio'); return }
+    const cleanName = nombre.trim()
+    const cleanNotes = notas.trim()
+    if (!cleanName) { showToast('El nombre es obligatorio'); return }
     const val = typeof monto === 'string' ? parseInt(monto) : monto
     if (!Number.isInteger(val) || val === 0) {
       showToast('El monto debe ser un entero distinto de 0 (positivo o negativo)')
@@ -47,13 +50,25 @@ export function ItemFormModal({ open, onOpenChange, editId }: Props) {
     }
 
 
-    const isoDate = new Date(fecha).toISOString()
+    if (!fecha) {
+      showToast('La fecha es obligatoria')
+      return
+    }
+
+    const dateValue = new Date(`${fecha}T12:00:00`)
+    if (Number.isNaN(dateValue.getTime())) {
+      showToast('La fecha no es válida')
+      return
+    }
+
+    const isoDate = dateValue.toISOString()
 
     if (editing) {
-      updateItem(editing.id, { nombre, montoCLP: val, notas: notas || undefined, categoria, fecha: isoDate })
+      updateItem(editing.id, { nombre: cleanName, montoCLP: val, notas: cleanNotes || undefined, categoria, fecha: isoDate })
       showToast('Ítem actualizado')
     } else {
-      addItem({ nombre, montoCLP: val, notas: notas || undefined, categoria, fecha: isoDate })
+      addItem({ nombre: cleanName, montoCLP: val, notas: cleanNotes || undefined, categoria, fecha: isoDate })
+      if (selectedCategory && selectedCategory !== categoria) setSelectedCategory(categoria)
       showToast('Ítem agregado')
     }
     onOpenChange(false)
@@ -61,15 +76,15 @@ export function ItemFormModal({ open, onOpenChange, editId }: Props) {
 
   if (!open) return null
 
-  return (
-    <div className="fixed inset-0 z-50 grid place-items-center overflow-y-auto bg-black/30 p-3 sm:p-4" role="dialog" aria-modal>
-      <form onSubmit={onSubmit} className="card max-h-[calc(100vh-1.5rem)] w-full max-w-lg overflow-y-auto p-4 sm:p-5">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="font-semibold">{editing ? 'Editar ítem' : 'Agregar ítem'}</h3>
+  return createPortal(
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/40 px-3 py-4 sm:px-6 sm:py-8" role="dialog" aria-modal>
+      <form onSubmit={onSubmit} className="card mx-auto flex min-h-[calc(100dvh-2rem)] w-full max-w-4xl flex-col p-5 sm:min-h-0 sm:p-7">
+        <div className="mb-5 flex items-center justify-between gap-4">
+          <h3 className="text-2xl font-semibold">{editing ? 'Editar ítem' : 'Agregar ítem'}</h3>
           <button type="button" className="icon-btn" onClick={() => onOpenChange(false)} aria-label="Cerrar">✕</button>
         </div>
 
-        <div className="grid gap-3">
+        <div className="grid flex-1 content-start gap-4 sm:grid-cols-2">
           <label className="label">Categoría
             <select className="input mt-1" value={categoria} onChange={e => setCategoria(e.target.value as CategoriaId)}>
               {cats.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -95,16 +110,17 @@ export function ItemFormModal({ open, onOpenChange, editId }: Props) {
             <input className="input mt-1" type="date" value={fecha} onChange={e => setFecha(e.target.value)} />
           </label>
 
-          <label className="label">Notas (opcional)
-            <textarea className="input mt-1" value={notas} onChange={e => setNotas(e.target.value)} rows={3} />
+          <label className="label sm:col-span-2">Notas (opcional)
+            <textarea className="input mt-1 min-h-28" value={notas} onChange={e => setNotas(e.target.value)} rows={4} />
           </label>
         </div>
 
-        <div className="mt-4 flex justify-end gap-2 max-sm:flex-col-reverse">
+        <div className="sticky bottom-0 -mx-5 mt-6 flex justify-end gap-2 border-t border-gray-200 bg-white px-5 pt-4 max-sm:flex-col-reverse dark:border-white/10 dark:bg-slate-900 sm:-mx-7 sm:px-7">
           <button type="button" className="btn" onClick={() => onOpenChange(false)}>Cancelar</button>
           <button type="submit" className="btn btn-primary">Guardar</button>
         </div>
       </form>
-    </div>
+    </div>,
+    document.body
   )
 }

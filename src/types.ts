@@ -29,6 +29,7 @@ export type AppState = {
   chartType: ChartType
   isHydrating: boolean
   syncError: string | null
+  lastAddedItemId: string | null
 
   // CRUD
   addItem: (i: Omit<Item, 'id' | 'createdAt' | 'updatedAt' | 'visible'> & { visible?: boolean }) => void

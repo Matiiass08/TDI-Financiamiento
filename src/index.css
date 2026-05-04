@@ -28,13 +28,13 @@ body {
 }
 
 /**** Utilidades ****/
-.card { @apply bg-white dark:bg-slate-900/90 rounded-2xl shadow-sm dark:shadow-[0_18px_60px_rgba(0,0,0,0.22)] border border-gray-200 dark:border-white/10 dark:ring-1 dark:ring-white/[0.03]; }
-.btn { @apply inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium border border-gray-300 dark:border-white/10 bg-white dark:bg-slate-900/80 hover:bg-gray-50 dark:hover:bg-slate-800/95 dark:text-slate-100 dark:shadow-sm; }
+.card { @apply rounded-lg border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-slate-900/90 dark:shadow-[0_18px_60px_rgba(0,0,0,0.22)] dark:ring-1 dark:ring-white/[0.03]; }
+.btn { @apply inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-50 dark:border-white/10 dark:bg-slate-900/80 dark:text-slate-100 dark:shadow-sm dark:hover:bg-slate-800/95; }
 .btn-primary { @apply bg-tdi-yellow text-neutral-950 border-transparent hover:brightness-95 dark:bg-amber-300 dark:text-slate-950 dark:hover:bg-amber-200; }
-.input { @apply w-full rounded-xl border border-gray-300 dark:border-white/10 bg-white dark:bg-slate-950/45 px-3 py-2 dark:text-slate-100 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-tdi-yellow/60 dark:focus:ring-amber-300/50; }
+.input { @apply w-full rounded-lg border border-gray-300 bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-tdi-yellow/60 dark:border-white/10 dark:bg-slate-950/45 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-amber-300/50; }
 .label { @apply text-sm font-medium; }
-.badge { @apply inline-flex items-center rounded-full bg-gray-100 dark:bg-slate-800/90 dark:text-slate-200 px-2 py-0.5 text-xs font-medium; }
-.icon-btn { @apply rounded-xl p-2 hover:bg-gray-100 dark:hover:bg-slate-800/95 dark:text-slate-200; }
+.badge { @apply inline-flex items-center rounded-md bg-gray-100 px-2 py-0.5 text-xs font-medium dark:bg-slate-800/90 dark:text-slate-200; }
+.icon-btn { @apply rounded-lg p-2 hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-slate-800/95; }
 
 .progress { @apply h-3 w-full rounded-full bg-gray-200 dark:bg-slate-950/70 overflow-hidden; }
 .progress > div { @apply h-full bg-tdi-yellow dark:bg-amber-300; }
